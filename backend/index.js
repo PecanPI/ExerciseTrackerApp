@@ -29,6 +29,13 @@ app.get('/', (req,res)=>{
     res.send('Hello World')
 })
 
+
+const exercisesRouter = require('./routes/exercises');
+const usersRouter = require('./routes/users')
+
+app.use('/exercises', exercisesRouter)
+app.use('/users', usersRouter)
+
 app.listen(port, ()=>{
     console.log(`Server is runnong on port: ${port}`);
 })
