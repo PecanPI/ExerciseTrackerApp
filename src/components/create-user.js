@@ -25,8 +25,6 @@ function CreateUser(props){
         return {username: ''};
       })
     }
-
-    
     
     return(
       <div>

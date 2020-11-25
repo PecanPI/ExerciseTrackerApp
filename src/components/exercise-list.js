@@ -1,25 +1,68 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-function ExercisesList(){
-  const [exercises, setExercises] = useState([])
+const Exercise = props => (
+  <tr>
+    <td>{props.exercise.username}</td>
+    <td>{props.exercise.description}</td>
+    <td>{props.exercise.duration}</td>
+    <td>{props.exercise.date.substring(0,10)}</td>
+    <td>
+      <Link to={"/edit/"+props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+    </td>
+  </tr>
+)
 
-  function componentDidMount(){
-    axios.get('http://localhost:5000/exercises/')
-    .then(res =>{
-      console.log(res.data);
-      //setExercise(res.data)
-    })
-    .catch(err=>{
-      console.log(err);
+function ExercisesList(){
+  const [exerciseList, setExercises] = useState([])
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      await axios.get("http://localhost:5000/exercises/")
+      .then(res=>{
+        setExercises(res.data)
+      })
+    }
+    fetchData()
+  })
+
+
+  const deleteExercise = async (id) =>{
+    await axios.delete('http://localhost:5000/exercises/'+id)
+    .then(res => {
+      console.log(res.data)
+      setExercises(res.data)
     })
   }
-  componentDidMount();
+
+  function getExerciseList() {
+    if (exerciseList.length > 0){
+    return exerciseList.map(current => {
+      return <Exercise exercise={current} deleteExercise={deleteExercise} key={current._id}/>;
+    })}
+  }
+
     return(
-        <div>
-        <p>You are on the Exercises List component!</p>
-      </div>
+      <div>
+      <h3>Logged Exercises</h3>
+      <table className="table">
+        <thead className="thead-light">
+          <tr>
+            <th>Username</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          { 
+            getExerciseList()
+          }
+        </tbody>
+      </table>
+    </div>
     )
 }
 

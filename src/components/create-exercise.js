@@ -36,7 +36,6 @@ function CreateExercise(props) {
           console.log("Error: " + err);
         });
 
-      //setExercise({ username: users[0] })
     };
     fetchData();
   }, []);
@@ -81,19 +80,6 @@ function CreateExercise(props) {
     });
   }
 
-  function componentDidMount() {
-    axios
-      .get("http://localhost:5000/exercises/")
-      .then((res) => {
-        if (res.data.length > 0) console.log(res.data);
-        setUsers(res.data.map((user) => user.username));
-        setExercise({ username: users[0] });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  //componentDidMount();
 
   function Submit(event) {
     console.log(exercise);
@@ -104,7 +90,7 @@ function CreateExercise(props) {
         console.log(err);
       });
     event.preventDefault();
-    // window.location = '/'
+    window.location = '/'
   }
 
   return (
