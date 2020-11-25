@@ -11,7 +11,7 @@ function CreateExercise(props) {
     date: new Date(),
     users: [],
   });
-  const [users, setUsers] = useState([]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
