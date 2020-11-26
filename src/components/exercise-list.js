@@ -1,51 +1,72 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Spinner from './spinner'
 
-const Exercise = props => (
+const Exercise = (props) => (
   <tr>
     <td>{props.exercise.username}</td>
     <td>{props.exercise.description}</td>
     <td>{props.exercise.duration}</td>
-    <td>{props.exercise.date.substring(0,10)}</td>
+    <td>{props.exercise.date.substring(0, 10)}</td>
     <td>
-      <Link to={"/edit/"+props.exercise._id}>edit</Link> / <a href="/" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+      <Link to={"/edit/" + props.exercise._id}>edit</Link> /{" "}
+      <a
+        href="/"
+        onClick={() => {
+          props.deleteExercise(props.exercise._id);
+        }}
+      >
+        delete
+      </a>
     </td>
   </tr>
-)
+);
 
-function ExercisesList(){
-  const [exerciseList, setExercises] = useState([])
+function ExercisesList() {
+  const [exerciseList, setExercises] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    const fetchData = async ()=>{
-      await axios.get("http://localhost:5000/exercises/")
-      .then(res=>{
-        setExercises(res.data)
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/exercises/")
+      .then((res) => {
+        setExercises(res.data);
+        setLoading(false);
       })
-    }
-    fetchData()
-  })
+      .catch((err) => {
+          console.log(`Error: ${err.message}`);
+      });
+  }, []);
 
-
-  const deleteExercise = async (id) =>{
-    await axios.delete('http://localhost:5000/exercises/'+id)
-    .then(res => {
-      console.log(res.data)
-      setExercises(res.data)
-    })
-  }
+  const deleteExercise = async (id) => {
+    await axios.delete("http://localhost:5000/exercises/" + id).then((res) => {
+      console.log(res.data);
+      setExercises(res.data);
+    });
+  };
 
   function getExerciseList() {
-    if (exerciseList.length > 0){
-      return exerciseList.map(current => {
-        return <Exercise exercise={current} deleteExercise={deleteExercise} key={current._id}/>;
-    })}
+    if (exerciseList.length > 0) {
+      return exerciseList.map((current) => {
+        return (
+          <Exercise
+            exercise={current}
+            deleteExercise={deleteExercise}
+            key={current._id}
+          />
+        );
+      });
+    }
   }
 
-    return(
-      <div>
+  return (
+    <div>
       <h3>Logged Exercises</h3>
+      {loading &&
+        <Spinner animation="grow" />
+      }
+      {!loading && 
       <table className="table">
         <thead className="thead-light">
           <tr>
@@ -56,14 +77,11 @@ function ExercisesList(){
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          { 
-            getExerciseList()
-          }
-        </tbody>
+        <tbody>{getExerciseList()}</tbody>
       </table>
+      }
     </div>
-    )
+  );
 }
 
 export default ExercisesList;

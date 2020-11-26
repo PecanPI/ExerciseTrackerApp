@@ -25,7 +25,12 @@ router.route('/add').post((req, res) =>{
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.route('/:id').delete((req, res)=>{
+router.route('/:id').get((req,res)=>{
+    Exercise.findById(req.params.id)
+    .then(exercises => res.json(exercises))
+    .catch(err => res.status(400).json('Error: ' + err))
+})
+.delete((req, res)=>{
     console.log('test');
     Exercise.findByIdAndDelete(req.params.id)
     .then(()=> res.json('Exercise deleted.'))
