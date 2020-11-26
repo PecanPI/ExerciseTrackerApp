@@ -4,6 +4,7 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 function CreateExercise(props) {
+  console.log(props);
   const [exercise, setExercise] = useState({
     username: "",
     description: "",
@@ -11,7 +12,6 @@ function CreateExercise(props) {
     date: new Date(),
     users: [],
   });
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +20,6 @@ function CreateExercise(props) {
         .then((res) => {
           if (res.data.length > 0) {
             let users = res.data.map((users) => users.username);
-
             setExercise((prevValues) => {
               return {
                 username: users[0],
@@ -35,7 +34,6 @@ function CreateExercise(props) {
         .catch((err) => {
           console.log("Error: " + err);
         });
-
     };
     fetchData();
   }, []);
@@ -70,6 +68,7 @@ function CreateExercise(props) {
   }
 
   function changeDate(date) {
+    console.log(date);
     setExercise((prevValue) => {
       return {
         username: prevValue.username,
@@ -80,7 +79,6 @@ function CreateExercise(props) {
     });
   }
 
-
   function Submit(event) {
     console.log(exercise);
     axios
@@ -90,7 +88,7 @@ function CreateExercise(props) {
         console.log(err);
       });
     event.preventDefault();
-    window.location = '/'
+    window.location = "/";
   }
 
   return (
