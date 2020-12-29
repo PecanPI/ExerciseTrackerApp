@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const Exercise = require('../models/exercise.models')
+const exercise = require('../models/exercise-model')
+const passport = require('passport')
+const Exercise = exercise.Exercise
 
 router.route('/').get((req,res)=>{
     Exercise.find()

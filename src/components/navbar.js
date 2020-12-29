@@ -1,27 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-
-function Navbar(){
-    return(
-        <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/" className="navbar-brand">ExcerTracker</Link>
-        <div className="collpase navbar-collapse">
+function Navbar() {
+  return (
+    <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
+      <Link to="/" className="navbar-brand">
+        ExcerLog
+      </Link>
+      <div className="collpase navbar-collapse">
         <ul className="navbar-nav mr-auto">
           <li className="navbar-item">
-          <Link to="/" className="nav-link">Exercises</Link>
+            <Link to="/" className="nav-link">
+              Exercises
+            </Link>
           </li>
           <li className="navbar-item">
-          <Link to="/create" className="nav-link">Create Exercise Log</Link>
-          </li>
-          <li className="navbar-item">
-          <Link to="/user" className="nav-link">Create User</Link>
+            <Link to="/create" className="nav-link">
+              Create Exercise Log
+            </Link>
           </li>
         </ul>
-        </div>
-      </nav>
-    )
+        <ul className="navbar-nav ml-auto">
+          <li className="navbar-item">
+            <Link to="/user" className="nav-link">
+              Sign Up
+            </Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/user" className="nav-link">
+              Log In
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
 }
 
-
-export default  Navbar;
+export default Navbar;

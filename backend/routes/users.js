@@ -1,5 +1,12 @@
 const router = require('express').Router()
-const User = require('../models/user.model')
+const User = require('../models/user-model')
+const passport = require('passport')
+
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 
 router.route('/').get((req, res)=>{
@@ -8,14 +15,27 @@ router.route('/').get((req, res)=>{
     .catch(err => res.status(400).json('Error: ' + err));
 })
 
-router.route('/add').post((req, res)=>{
+router.route('/register').post((req, res)=>{
    
-    const username = req.body.username;
-    const newUser = new User({username})
-    newUser.save()
-    .then(()=>res.json('User added!'))
-    .catch((err) => res.status(400).json('Error: ' + err))
+    User.register({username: req.body.username,},req.body.password, (err, user)=>{
+        if(err){
+            console.log(err);
+        } else {
+            passport.authenticate("local")(req,res,()=>{
+                res.redirect("/")
+            })
+        }
+    })
+
+    // const username = req.body.username;
+    // const newUser = new User({username})
+    // newUser.save()
+    // .then(()=>res.json('User added!'))
+    // .catch((err) => res.status(400).json('Error: ' + err))
 });
+
+
+router.route('/login')
 
 
 
