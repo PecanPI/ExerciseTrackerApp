@@ -4,7 +4,7 @@ const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/user-model");
 
 //User Signup Rotue
 async function signup(req, res, next) {
