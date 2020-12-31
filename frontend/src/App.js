@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -18,12 +18,13 @@ function App() {
         <div className="wrapper flex-grow-1">
           <Navbar />
           <br />
+          <Switch>
           <Route path="/" exact component={ExercisesList} />
           <Route path="/edit/:id" component={EditExercise} />
           <Route path="/create" component={CreateExercise} />
           <Route path="/sign-in" component={CreateUser} />
           <Route path="/log-in" component={LogIn} />
-          
+          </Switch>
         </div>
         <Footer />
       </div>
