@@ -134,8 +134,6 @@ async function updateExercise(req, res, next) {
   } catch (error) {
     return next(new HttpError("Something went wrong could not update", 500));
   }
-  console.log(exercise.userId.toString());
-  console.log(req.params.uid);
   if (exercise.userId.toString() !== req.params.uid) {
     return next(new HttpError("You are not allowed to edit this", 401));
   }
