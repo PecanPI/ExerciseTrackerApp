@@ -12,6 +12,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded());
 //app.use(cors())
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
   throw error;
 });
 
-// Landing Page
+// error handling
 app.use((error, req, res, next) => {
     if (res.headerSent) {
       return next(error);

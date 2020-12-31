@@ -6,7 +6,7 @@ const User = require("../models/user-model");
 const Exercise = require("../models/exercise-model");
 
 //Searching for exercise for specfic user
-async function getExerciseByUserId(res, req, next) {
+async function getExerciseByUserId(req, res, next) {
   const userId = req.params.uid;
   let userWithExercise;
   try {
@@ -20,11 +20,11 @@ async function getExerciseByUserId(res, req, next) {
   if (!userWithExercise || userWithExercise.exercises.length === 0) {
     return next(new HttpError("Could not find exercises for user", 404));
   }
-
+  console.log(userWithExercise.exercises.map((exercise) => 0));
   res.json({
-    exercises: userWithExercise.exercises.map((exercise) => {
-      exercise.toObject({ getters: true });
-    }),
+    exercises: userWithExercise.exercises.map((exercise) =>
+      exercise.toObject({ getters: true })
+    ),
   });
 }
 
@@ -47,6 +47,7 @@ async function createExercise(req, res, next) {
     weight,
     duration,
     date,
+    userId,
   } = req.body;
 
   const newExercise = new Exercise({
@@ -58,16 +59,21 @@ async function createExercise(req, res, next) {
     weight,
     duration,
     date,
-    userId: req.userData.userId,
+    //userId: req.userData.userId,
+    userId,
   });
 
+  console.log(newExercise);
   //make sure user exists to add
   let user;
   try {
-    user = await User.findById(req.userData.userId);
+    user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Error occured creating exercise, please try again", 422)
+      new HttpError(
+        "Error occured creating exercise, please try again" + err,
+        422
+      )
     );
   }
   //if no user throw error
@@ -118,9 +124,9 @@ async function updateExercise(req, res, next) {
     weight,
     duration,
     date,
-    userId: req.userData.userId,
+    userId: req.params.uid,
   });
-    //find existing exercise
+  //find existing exercise
   const exerciseId = req.params.eid;
   let exercise;
   try {
@@ -128,62 +134,61 @@ async function updateExercise(req, res, next) {
   } catch (error) {
     return next(new HttpError("Something went wrong could not update", 500));
   }
-  if (exercise.userId.toString() !== req.userData.userId) {
+  console.log(exercise.userId.toString());
+  console.log(req.params.uid);
+  if (exercise.userId.toString() !== req.params.uid) {
     return next(new HttpError("You are not allowed to edit this", 401));
   }
-  exercise=updatedExercise;
+  exercise = updatedExercise;
 
-  try{
-      exercise.save();
-  } catch (err){
-    return next(
-        new HttpError("Something went wrong could not update", 500)
-      );
+  try {
+    exercise.save();
+  } catch (err) {
+    return next(new HttpError("Something went wrong could not update", 500));
   }
 
   res.status(200).json({ exercise: exercise.toObject({ getters: true }) });
-
 }
 
-async function deleteExercise(req, res, next){
-    const exerciseId = req.params.eid;
-    let exercise;
-    try{
-        exercise = await Exercise.findById(exerciseId).populate("userId")
-    } catch {
-        return next(
-            new HttpError("Something went wrong could not delete\n" + err, 500)
-          );
-    }
+async function deleteExercise(req, res, next) {
+  const exerciseId = req.params.eid;
+  let exercise;
+  try {
+    exercise = await Exercise.findById(exerciseId).populate("userId");
+  } catch {
+    return next(
+      new HttpError("Something went wrong could not delete\n" + err, 500)
+    );
+  }
 
-    if(!exercise){
-        return next(
-            new HttpError('Could not find Exercise', 404)
-        )
-    }
-    if (exercise.userId.id !== req.userData.userId){
-        return next(new HttpError("You are not allowed to delete this exercise", 401));
-    }
+  if (!exercise) {
+    return next(new HttpError("Could not find Exercise", 404));
+  }
+  if (exercise.userId.id !== req.params.uid) {
+    return next(
+      new HttpError("You are not allowed to delete this exercise", 401)
+    );
+  }
 
-    try{
-        const sess = mongoose.startSession()
-        sess.startTransaction();
-        await exercise.remove({session:sess})
-        exercise.userId.exercises.pull(exercise);
-        await exercise.userId.save({session:sess})
-        await sess.commitTransaction();
-    } catch (err){
-        return next(
-            new HttpError("Something went wrong could not delete\n" + err, 500)
-          );
-    }
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await exercise.remove({ session: sess });
+    exercise.userId.exercises.pull(exercise);
+    console.log("test");
+    await exercise.userId.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong could not delete\n" + err, 500)
+    );
+  }
+  res.json({ message: "exercise deleted" });
 }
 
-
-
-module.exports ={
-    deleteExercise,
-    updateExercise,
-    createExercise,
-    getExerciseByUserId
-}
+module.exports = {
+  deleteExercise,
+  updateExercise,
+  createExercise,
+  getExerciseByUserId,
+};
