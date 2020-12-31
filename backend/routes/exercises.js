@@ -1,57 +1,15 @@
-const router = require('express').Router()
-const exercise = require('../models/exercise-model')
-const passport = require('passport')
-const Exercise = exercise.Exercise
+const express = require('express')
+const { check } = require("express-validator");
+const exerciseControllers = require("../controllers/exercise-controllers")
 
-router.route('/').get((req,res)=>{
-    Exercise.find()
-    .then(exercises => res.json(exercises))
-    .catch(err => res.status(400).json('Error: ' + err))
-});
+const router = express.Router()
 
-router.route('/add').post((req, res) =>{
-    const username = req.body.username;
-    const description = req.body.description;
-    const duration = Number(req.body.duration);
-    const date = Date.parse(req.body.date);
+router.get("/:uid", exerciseControllers.getExerciseByUserId)
 
-    const newExercise = new Exercise({
-        username,
-        description,
-        duration,
-        date,
-    });
+router.post("/", exerciseControllers.createExercise)
 
-    newExercise.save()
-    .then(()=> res.json('Exercise added!'))
-    .catch(err => res.status(400).json('Error: ' + err))
-})
+router.patch("/:uid/:eid", exerciseControllers.updateExercise)
 
-router.route('/:id').get((req,res)=>{
-    Exercise.findById(req.params.id)
-    .then(exercises => res.json(exercises))
-    .catch(err => res.status(400).json('Error: ' + err))
-})
-.delete((req, res)=>{
-    console.log('test');
-    Exercise.findByIdAndDelete(req.params.id)
-    .then(()=> res.json('Exercise deleted.'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/update/:id').post((req,res)=>{
-    Exercise.findById(req.params.id)
-        .then(exercise =>{
-            exercise.username =req.body.username;
-            exercise.description =req.body.description;
-            exercise.duration = Number(req.body.duration);
-            exercise.date = Date.parse(req.body.date);
-
-            exercise.save()
-            .then(()=> res.json('Exercise Updated'))
-            .catch(err => res.status(400).json('Error: ' + err))
-        })
-        .catch(err => res.status(400).json('Error: ' + err))
-})
+router.delete("/:uid/:eid", exerciseControllers.deleteExercise)
 
 module.exports = router;

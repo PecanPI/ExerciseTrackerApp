@@ -33,7 +33,7 @@ async function signup(req, res, next) {
   try {
     hashedPassword = await bcrypt.hash(password, 10);
   } catch {
-    return next(HttpError("Could not create user please try again", 500));
+    return next(new HttpError("Could not create user please try again", 500));
   }
 
   //Creating the user
@@ -61,8 +61,8 @@ async function signup(req, res, next) {
       new HttpError("Creating Token Failed, please try again later", 500)
     );
   }
-
-  res.status(201).json({ email: createdUser.email, token: token });
+  
+  res.status(201).json({ user: createdUser.id, email: createdUser.email, token: token });
 }
 
 //User Login
