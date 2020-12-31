@@ -1,8 +1,10 @@
 const express = require('express')
 const { check } = require("express-validator");
 const exerciseControllers = require("../controllers/exercise-controllers")
-
+const checkAuth = require("../middleware/check-auth");
 const router = express.Router({mergeParams: true})
+
+router.use(checkAuth)
 
 router.get("/:uid", exerciseControllers.getExerciseByUserId)
 
