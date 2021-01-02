@@ -1,5 +1,5 @@
-import React, {useContext } from "react";
-
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UIElements/Card";
 import {
@@ -15,13 +15,13 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import "./Auth.css";
 
-/* 
-*   Sign Up compenent
-*/
+/*
+ *   Sign Up compenent
+ */
 function SignUp() {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
+  const history = useHistory();
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -43,14 +43,15 @@ function SignUp() {
         `${"http://localhost:5000"}/users/signup`,
         "POST",
         JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          {
-            "Content-Type": "application/json",
-          }
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+        {
+          "Content-Type": "application/json",
+        }
       );
       auth.login(responseData.userId, responseData.token);
+      history.push(`/exerices/${responseData.userId}`);
     } catch (err) {
       console.log(err);
     }
@@ -90,7 +91,6 @@ function SignUp() {
             errorText="Please enter a valid password, atleast 6 characters"
             onInput={inputHandler}
           />
-
           <Button
             type="submit"
             disabled={!formState.isValid}

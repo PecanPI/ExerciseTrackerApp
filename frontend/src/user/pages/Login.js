@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UIElements/Card";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -14,13 +14,12 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
-
 import "./Auth.css";
 
 function Auth() {
   const auth = useContext(AuthContext);
-  const [isLoginMode, setIsLoginModep] = useState(true);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const history = useHistory();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -36,58 +35,28 @@ function Auth() {
     false
   );
 
+  //Login
   async function submitHandler(event) {
     event.preventDefault();
-    if (isLoginMode) {
-      try {
-        const responseData = await sendRequest(
-          `${'http://localhost:5000/'}users/login`,
-          "POST",
-          JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          {
-            "Content-Type": "application/json",
-          }
-        );
-        console.log(responseData.userId, responseData.token);
-        auth.login(responseData.userId, responseData.token);
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      const responseData = await sendRequest(
+        `${"http://localhost:5000/"}users/login`,
+        "POST",
+        JSON.stringify({
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+      console.log(responseData);
+      auth.login(responseData.userId, responseData.token); //save login information
+      history.push(`/exerices/${responseData.userId}`); //redirect to user page
+    } catch (err) {
+      console.log(err);
     }
   }
-
-  function switchModeHandler() {
-    if (!isLoginMode) {
-      setFormData(
-        {
-          ...formState.inputs,
-          name: undefined,
-          image: undefined,
-        },
-        formState.inputs.email.isValid && formState.inputs.password.isValid
-      );
-    } else {
-      setFormData(
-        {
-          ...formState.inputs,
-          name: {
-            value: "",
-            isValid: false,
-            image:{
-              value: null,
-              isValid: false
-            }
-          },
-        },
-        false
-      );
-    }
-    setIsLoginModep((prevMode) => !prevMode);
-  }
-
 
   return (
     <div>
@@ -121,12 +90,9 @@ function Auth() {
             disabled={!formState.isValid}
             onClick={submitHandler}
           >
-            {"LOGIN" }
+            {"LOGIN"}
           </Button>
         </form>
-        <Button inverse onClick={switchModeHandler}>
-          SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
-        </Button>
       </Card>
     </div>
   );

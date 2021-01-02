@@ -21,12 +21,13 @@ import "./App.css";
 function App() {
   const { token, login, logout, userId } = useAuth();
   let routes;
+  
   if (token) {
-    
+    console.log('app.js ' + userId);
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Users />
+          <LandingPage />
         </Route>
       </Switch>
     );
@@ -61,7 +62,6 @@ function App() {
         <div className="container d-flex flex-column min-vh-100">
           <div className="wrapper flex-grow-1">
             <MainNavigation />
-
             <Switch>
               <Suspense
                 fallback={
