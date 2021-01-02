@@ -51,7 +51,7 @@ function SignUp() {
         }
       );
       auth.login(responseData.userId, responseData.token);
-      history.push(`/exerices/${responseData.userId}`);
+      history.push(`/exercises/${responseData.userId}`);
     } catch (err) {
       console.log(err);
     }

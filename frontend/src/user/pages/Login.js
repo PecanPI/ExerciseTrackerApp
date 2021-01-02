@@ -52,7 +52,7 @@ function Auth() {
       );
       console.log(responseData);
       auth.login(responseData.userId, responseData.token); //save login information
-      history.push(`/exerices/${responseData.userId}`); //redirect to user page
+      history.push(`/exercises/${responseData.userId}`); //redirect to user page
     } catch (err) {
       console.log(err);
     }

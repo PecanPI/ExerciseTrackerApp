@@ -23,10 +23,11 @@ function App() {
   let routes;
   
   if (token) {
-    console.log('app.js ' + userId);
+    
     routes = (
       <Switch>
-        <Route path="/" exact>
+        <Route path="/exercises/:userId" exact>
+        {console.log('app.js ' + userId)}
           <LandingPage />
         </Route>
       </Switch>
