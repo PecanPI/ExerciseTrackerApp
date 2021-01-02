@@ -18,12 +18,13 @@ async function signup(req, res, next) {
 
   const { email, password } = req.body;
 
+  console.log(req.body);
   //Check for existing user in database, each email should be unique
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
   } catch (err) {
-    return next(HttpError("Could not create user please try again", 500));
+    return next(HttpError("Could not create user please try again"+err, 500));
   }
   if (existingUser) {
     return next(new HttpError("User already exists", 422));
@@ -32,8 +33,8 @@ async function signup(req, res, next) {
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(password, 10);
-  } catch {
-    return next(new HttpError("Could not create user please try again", 500));
+  } catch (err){
+    return next(new HttpError("Could not create user please try again" +err, 500));
   }
 
   //Creating the user
@@ -47,7 +48,7 @@ async function signup(req, res, next) {
   try {
     await createdUser.save();
   } catch (err) {
-    return next(HttpError("Could not create user please try again", 500));
+    return next(HttpError("Could not create user please try again" +err, 500));
   }
 
   //creating a JWT for user

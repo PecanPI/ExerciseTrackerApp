@@ -10,7 +10,7 @@ export function useHttpClient() {
     setIsLoading(true)
     const httpAbortCtrl = new AbortController(); //aborts when page is changed
     activeHttpRequests.current.push(httpAbortCtrl)
-
+    console.log(body);
     try {
       const response = await fetch(url, {
         method,
@@ -19,7 +19,6 @@ export function useHttpClient() {
         signal: httpAbortCtrl.signal
       });
       const responseData = await response.json();
-
       activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCtrl)
       if (!response.ok) {
         throw new Error(responseData.message);
@@ -27,7 +26,6 @@ export function useHttpClient() {
       setIsLoading(false);
       return responseData
     } catch (err) {
-      
       setError(err.message || "Something went wrong, please try again");
       setIsLoading(false);
       throw err
@@ -41,7 +39,6 @@ export function useHttpClient() {
 
   useEffect(()=>{
       return ()=>{ //cleanup function
-        
         activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort())
       };
   },[])

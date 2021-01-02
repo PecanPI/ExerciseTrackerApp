@@ -1,34 +1,82 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { Suspense } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+
+import { AuthContext } from "./shared/context/auth-context";
+import useAuth from "./shared/hooks/auth-hook";
+
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+import Users from "./user/pages/User";
+import LandingPage from "./LandingPage/LandingPage"
+import SignUp from "./user/pages/SignUp"
+import Login from "./user/pages/Login"
+
 import "./App.css";
 
-import Navbar from "./components/navbar";
-import ExercisesList from "./components/exercise-list";
-import EditExercise from "./components/edit-exercise";
-import CreateExercise from "./components/create-exercise";
-import CreateUser from "./components/create-user";
-import LogIn from "./components/log-in";
-import Footer from "./components/footer";
-
 function App() {
+  const { token, login, logout, userId } = useAuth();
+  let routes;
+  if (token) {
+    
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Users />
+        </Route>
+      </Switch>
+    );
+  } else {
+    routes = (
+    <Switch>
+      <Route path="/" exact>
+        <LandingPage />
+      </Route>
+      <Route path='/users/signup' exact>
+        <SignUp />
+      </Route>
+      <Route path='/users/login' exact>
+        <Login />
+      </Route>
+      <Redirect to="/404" />
+  </Switch>
+  )
+  }
+
   return (
-    <Router>
-      <div className="container d-flex flex-column min-vh-100">
-        <div className="wrapper flex-grow-1">
-          <Navbar />
-          <br />
-          <Switch>
-          <Route path="/" exact component={ExercisesList} />
-          <Route path="/edit/:id" component={EditExercise} />
-          <Route path="/create" component={CreateExercise} />
-          <Route path="/sign-in" component={CreateUser} />
-          <Route path="/log-in" component={LogIn} />
-          </Switch>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <Router>
+        <div className="container d-flex flex-column min-vh-100">
+          <div className="wrapper flex-grow-1">
+            <MainNavigation />
+
+            <Switch>
+              <Suspense
+                fallback={
+                  <div className="center">
+                    <LoadingSpinner></LoadingSpinner>
+                  </div>
+                }
+              >
+                {routes}
+              </Suspense>
+            </Switch>
+          </div>
         </div>
-        <Footer />
-      </div>
-    </Router>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 

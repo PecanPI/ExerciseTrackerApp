@@ -18,12 +18,14 @@
   }
   
   .main-navigation__title {
-    color: white;
+    color: #222831;
+    text-align: center;
   }
   
   .main-navigation__title a {
     text-decoration: none;
-    color: white;
+    color: #222831;
+    text-align: center;
   }
   
   .main-navigation__header-nav {

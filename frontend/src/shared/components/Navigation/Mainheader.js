@@ -9,6 +9,7 @@ function MainHeader(props) {
                 {props.children}
             </header>
         </div>
+
     )
 }
 
