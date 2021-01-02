@@ -10,7 +10,7 @@ const exerciseSchema = new Schema({
     reps: {type: Number},
     sets: {type: Number},
     weight: {type: Number},
-    duration: { type: Number},
+    duration: {type: Number},
     date: {type: Date, required: true},
 },{
     timestamps: true

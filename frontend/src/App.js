@@ -11,10 +11,11 @@ import useAuth from "./shared/hooks/auth-hook";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
-import Users from "./user/pages/User";
 import LandingPage from "./LandingPage/LandingPage"
 import SignUp from "./user/pages/SignUp"
 import Login from "./user/pages/Login"
+import NewExercise from "./exercises/pages/NewExercise"
+import UserExercises from "./exercises/pages/UserExercises"
 
 import "./App.css";
 
@@ -26,10 +27,14 @@ function App() {
     
     routes = (
       <Switch>
-        <Route path="/exercises/:userId" exact>
-        {console.log('app.js ' + userId)}
-          <LandingPage />
+        <Route path="/exercises/:userId">
+          <UserExercises />
         </Route>
+        <Route path="/exercises/create" exact>
+          <NewExercise />
+        </Route>
+        {/* 404 page Route */}
+        <Route component={UserExercises} /> 
       </Switch>
     );
   } else {
@@ -44,7 +49,7 @@ function App() {
       <Route path='/users/login' exact>
         <Login />
       </Route>
-      <Redirect to="/404" />
+      {/* <Redirect to="/404" /> */}
   </Switch>
   )
   }
@@ -72,6 +77,7 @@ function App() {
                 }
               >
                 {routes}
+                
               </Suspense>
             </Switch>
           </div>

@@ -20,7 +20,6 @@ async function getExerciseByUserId(req, res, next) {
   if (!userWithExercise || userWithExercise.exercises.length === 0) {
     return next(new HttpError("Could not find exercises for user", 404));
   }
-  console.log(userWithExercise.exercises.map((exercise) => 0));
   res.json({
     exercises: userWithExercise.exercises.map((exercise) =>
       exercise.toObject({ getters: true })
@@ -30,13 +29,14 @@ async function getExerciseByUserId(req, res, next) {
 
 //Creating Exercise, every exercise must be assigned to a user
 async function createExercise(req, res, next) {
-  const errors = validationResult(req);
+  // const errors = validationResult(req);
 
-  if (errors.errors.length > 0) {
-    return next(
-      new HttpError("invalid inputs passed, please check your data", 422)
-    );
-  }
+  // if (errors.errors.length > 0) {
+  //   return next(
+  //     new HttpError("invalid inputs passed, please check your data", 422)
+  //   );
+  // }
+  console.log(req.body);
 
   const {
     title,
@@ -63,7 +63,6 @@ async function createExercise(req, res, next) {
     userId,
   });
 
-  console.log(newExercise);
   //make sure user exists to add
   let user;
   try {

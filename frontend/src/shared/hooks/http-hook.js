@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import {Redirect} from "react-router-dom"
+
 
 export function useHttpClient() {
   const [isLoading, setIsLoading] = useState(false);
@@ -7,11 +7,10 @@ export function useHttpClient() {
 
   const activeHttpRequests = useRef([])
 
-  const sendRequest= useCallback(async(url, method = "GET", body = null, headers = {})=> {
+  const sendRequest = useCallback(async(url, method = "GET", body = null, headers = {})=> {
     setIsLoading(true)
     const httpAbortCtrl = new AbortController(); //aborts when page is changed
     activeHttpRequests.current.push(httpAbortCtrl)
-    console.log(body);
     try {
       const response = await fetch(url, {
         method,
