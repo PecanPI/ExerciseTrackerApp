@@ -16,8 +16,10 @@ import SignUp from "./user/pages/SignUp";
 import Login from "./user/pages/Login";
 import NewExercise from "./exercises/pages/NewExercise";
 import UserExercises from "./exercises/pages/UserExercises";
+import UpdateExercise from "./exercises/pages/UpdateExercise"
 
 import "./App.css";
+
 
 function App() {
   const { token, login, logout, userId } = useAuth();
@@ -28,6 +30,9 @@ function App() {
       <Switch>
         <Route path="/exercises/create" exact>
           <NewExercise />
+        </Route>
+        <Route path="/exercises/:userId/update/" exact>
+          <UpdateExercise />
         </Route>
         <Route path="/exercises/:userId">
           <UserExercises />

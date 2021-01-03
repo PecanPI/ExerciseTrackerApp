@@ -30,10 +30,6 @@ function NewExercise() {
         value: "",
         isValid: false,
       },
-      description: {
-        value: "",
-        isValid: false,
-      },
       bodyLocation: {
         value: "",
         isValid: false,
@@ -50,10 +46,6 @@ function NewExercise() {
         value: null,
         isValid: false,
       },
-      duration: {
-        value: null,
-        isValid: false,
-      },
     },
     false
   );
@@ -66,12 +58,10 @@ function NewExercise() {
         "POST",
         JSON.stringify({
           title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
           bodyLocation: formState.inputs.bodyLocation.value,
           reps: formState.inputs.reps.value,
           sets: formState.inputs.sets.value,
           weight: formState.inputs.weight.value,
-          duration: formState.inputs.duration.value,
           date: date,
           userId: auth.userId,
         }),

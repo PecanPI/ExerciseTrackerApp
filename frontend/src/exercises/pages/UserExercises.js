@@ -15,6 +15,11 @@ function UserExercises() {
   const [loadedExercises, setLoadedExercises] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
+
+  function exerciseDeleteHandler(deleteExerciseId) {
+    setLoadedExercises(prevExercise=> prevExercise.filter(exercises => exercises.id !== deleteExerciseId));
+}
+
   useEffect(() => {
     async function fetchPlaces() {
       try {
@@ -35,9 +40,6 @@ function UserExercises() {
     fetchPlaces();
   }, [sendRequest, auth.userId, auth.token]);
 
-  function placeDeleteHandler(deletePlaceId) {
-      setLoadedExercises(prevPlace=> prevPlace.filter(place => place.id !== deletePlaceId));
-  }
   return (
     <div>
       <ErrorModal error={error} onClear={clearError} />
@@ -47,7 +49,7 @@ function UserExercises() {
         </div>
       )}
       {!isLoading && loadedExercises && (
-        <ExerciseList items={loadedExercises} onDeletePlace={placeDeleteHandler} />
+        <ExerciseList items={loadedExercises} onDeleteExercise={exerciseDeleteHandler} />
       )}
     </div>
   );

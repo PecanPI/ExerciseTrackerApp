@@ -30,6 +30,7 @@
   width: 60vw;
   max-width: 100%;
   border-collapse: collapse;
+  margin-bottom: 2rem;
 }
 .exercise-table th {
   border: thin solid black;
@@ -42,7 +43,11 @@
 .exercise-table td {
   border: thin solid black;
   padding: 12px 15px;
-  text-align: left;
+  text-align: center;
+}
+.exercise-table td div{
+  text-decoration: underline;
+  color: 	#0000EE;
 }
 
 .exercise-table tr:nth-child(odd) {

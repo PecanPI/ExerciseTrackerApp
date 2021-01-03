@@ -12,9 +12,11 @@ function ExerciseList(props) {
   const auth = useContext(AuthContext);
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deleteExerciseId, setDeleteExerciseId] = useState();
 
-
-  function showDeleteWarningHandler() {
+  console.log(props);
+  function showDeleteWarningHandler(id) {
+    setDeleteExerciseId(id)
     setShowConfirmModal(true);
   }
   function cancelDeleteWarningHandler() {
@@ -25,7 +27,7 @@ function ExerciseList(props) {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `${"http://localhost:5000/exercises/"}${auth.userId}/${props.items.eid}`,
+        `${"http://localhost:5000/exercises/"}${auth.userId}/${deleteExerciseId}`,
         "DELETE",
         null,
         {
@@ -33,7 +35,7 @@ function ExerciseList(props) {
           Authorization: "Bearer " + auth.token,
         }
       );
-      props.onDelete(props.id);
+      props.onDeleteExercise(deleteExerciseId);
     } catch (err) {
       console.log(err);
     }
@@ -55,32 +57,28 @@ function ExerciseList(props) {
   return (
     <div className='center'>
       <ErrorModal error={error} onClear={clearError} />
-      <Modal
-        show={showConfirmModal}
-        onCancel={cancelDeleteWarningHandler}
-        header="Are you sure?"
-        footerClass="place-item__modal-actions"
-        footer={
-          <React.Fragment>
-            <Button inverse onClick={cancelDeleteWarningHandler}>
-              {" "}
-              CANCEL{" "}
-            </Button>
-            <Button to={`/exercises/update/${props.id}`}>
-              {" "}
-              UPDATE{" "}
-            </Button>
-            <Button danger onClick={confirmDeleteHandler}>
-              {" "}
-              DELETE{" "}
-            </Button>
-          </React.Fragment>
-        }
-      >
-        <p>
-          Would you like to Delete or Update this Exercise?
-        </p>
-      </Modal> 
+      {showConfirmModal && (
+          <Modal
+            show={showConfirmModal}
+            onCancel={cancelDeleteWarningHandler}
+            header="Are you sure?"
+            footerClass="place-item__modal-actions"
+            footer={
+              <React.Fragment>
+                <Button inverse onClick={cancelDeleteWarningHandler}>
+                  {" "}
+                  CANCEL{" "}
+                </Button>
+                <Button danger onClick={confirmDeleteHandler}>
+                  {" "}
+                  DELETE{" "}
+                </Button>
+              </React.Fragment>
+            }
+          >
+            <p>Would you like to Delete this Exercise?</p>
+          </Modal>
+      )}
        {isLoading && <LoadingSpinner asOverlay />}
       <table className="exercise-table">
         <thead>
@@ -91,6 +89,8 @@ function ExerciseList(props) {
             <th className="exercise-column">Sets</th>
             <th className="exercise-column">Weight</th>
             <th className="exercise-column">Date</th>
+            <th className="exercise-column">Actions</th>
+
           </tr>
         </thead>
         <tbody>
@@ -105,11 +105,15 @@ function ExerciseList(props) {
               sets={exercise.sets}
               weight={exercise.weight}
               date={exercise.date}
-              onclick={showDeleteWarningHandler}
+              showWarning={showDeleteWarningHandler}
+              cancelWarning={cancelDeleteWarningHandler}
+              confirmDeleteHandler={confirmDeleteHandler}
+
             />
           ))}
         </tbody>
       </table>
+      <Button className='center' to={`/exercises/create`}>Add Exercise</Button>
     </div>
   );
 }

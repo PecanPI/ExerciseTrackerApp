@@ -17,8 +17,8 @@ async function getExerciseByUserId(req, res, next) {
       new HttpError("Could not connect to db, please try again later.", 500)
     );
   }
-
-  if (!userWithExercise || userWithExercise.exercises.length === 0) {
+//|| userWithExercise.exercises.length === 0
+  if (!userWithExercise ) {
     return next(new HttpError("Could not find exercises for user", 404));
   }
   res.json({
@@ -41,24 +41,20 @@ async function createExercise(req, res, next) {
 
   const {
     title,
-    description,
     bodyLocation,
     reps,
     sets,
     weight,
-    duration,
     date,
     userId,
   } = req.body;
 
   const newExercise = new Exercise({
     title,
-    description,
     bodyLocation,
     reps,
     sets,
     weight,
-    duration,
     date,
     //userId: req.userData.userId,
     userId,
@@ -150,7 +146,7 @@ async function updateExercise(req, res, next) {
 
 async function deleteExercise(req, res, next) {
   const exerciseId = req.params.eid;
-  console.log(req.body);
+  console.log(req.params);
   let exercise;
   try {
     exercise = await Exercise.findById(exerciseId).populate("userId");
