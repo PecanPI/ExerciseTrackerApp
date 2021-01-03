@@ -11,47 +11,47 @@ import useAuth from "./shared/hooks/auth-hook";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
-import LandingPage from "./LandingPage/LandingPage"
-import SignUp from "./user/pages/SignUp"
-import Login from "./user/pages/Login"
-import NewExercise from "./exercises/pages/NewExercise"
-import UserExercises from "./exercises/pages/UserExercises"
+import LandingPage from "./LandingPage/LandingPage";
+import SignUp from "./user/pages/SignUp";
+import Login from "./user/pages/Login";
+import NewExercise from "./exercises/pages/NewExercise";
+import UserExercises from "./exercises/pages/UserExercises";
 
 import "./App.css";
 
 function App() {
   const { token, login, logout, userId } = useAuth();
   let routes;
-  
+
   if (token) {
-    
     routes = (
       <Switch>
-        <Route path="/exercises/:userId">
-          <UserExercises />
-        </Route>
         <Route path="/exercises/create" exact>
           <NewExercise />
         </Route>
+        <Route path="/exercises/:userId">
+          <UserExercises />
+        </Route>
+
         {/* 404 page Route */}
-        <Route component={UserExercises} /> 
+        <Route component={LandingPage} />
       </Switch>
     );
   } else {
     routes = (
-    <Switch>
-      <Route path="/" exact>
-        <LandingPage />
-      </Route>
-      <Route path='/users/signup' exact>
-        <SignUp />
-      </Route>
-      <Route path='/users/login' exact>
-        <Login />
-      </Route>
-      {/* <Redirect to="/404" /> */}
-  </Switch>
-  )
+      <Switch>
+        <Route path="/" exact>
+          <LandingPage />
+        </Route>
+        <Route path="/users/signup" exact>
+          <SignUp />
+        </Route>
+        <Route path="/users/login" exact>
+          <Login />
+        </Route>
+        <Route component={LandingPage} />
+      </Switch>
+    );
   }
 
   return (
@@ -77,7 +77,6 @@ function App() {
                 }
               >
                 {routes}
-                
               </Suspense>
             </Switch>
           </div>

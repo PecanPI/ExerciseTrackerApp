@@ -15,17 +15,27 @@
     width: 3rem;
     height: 2.5px;
     background: white;
+    
   }
   
   .main-navigation__title {
-    color: #222831;
+    color: #fff;
     text-align: center;
+    margin-left: 100px;
+    
+   
   }
   
   .main-navigation__title a {
     text-decoration: none;
-    color: #222831;
+    color:#fff;
     text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    margin-left: -50px !important;
+    display: block;
+    
   }
   
   .main-navigation__header-nav {
@@ -36,7 +46,7 @@
     height: 100%;
   }
   
-  @media (min-width: 768px) {
+  @media only screen and (min-width: 768px) {
     .main-navigation__menu-btn {
       display: none;
     }

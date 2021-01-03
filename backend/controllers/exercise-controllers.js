@@ -8,6 +8,7 @@ const Exercise = require("../models/exercise-model");
 //Searching for exercise for specfic user
 async function getExerciseByUserId(req, res, next) {
   const userId = req.params.uid;
+  console.log(userId);
   let userWithExercise;
   try {
     userWithExercise = await User.findById(userId).populate("exercises");
@@ -149,10 +150,11 @@ async function updateExercise(req, res, next) {
 
 async function deleteExercise(req, res, next) {
   const exerciseId = req.params.eid;
+  console.log(req.body);
   let exercise;
   try {
     exercise = await Exercise.findById(exerciseId).populate("userId");
-  } catch {
+  } catch (err) {
     return next(
       new HttpError("Something went wrong could not delete\n" + err, 500)
     );

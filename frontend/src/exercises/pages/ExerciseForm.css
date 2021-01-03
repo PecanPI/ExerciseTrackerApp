@@ -1,15 +1,71 @@
-.place-form {
-    position: relative;
-    list-style: none;
-    margin: 0 auto;
-    padding: 1rem;
-    width: 90%;
-    max-width: 40rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    border-radius: 6px;
-    background: white;
-  }
+.exercise-form {
+  position: relative;
+  list-style: none;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 6px;
+  background: white;
+}
 
 .form-group{
-    margin-bottom: 1rem;
+  padding-bottom: 20px;
+  
+  
+}
+.react-datepicker__tab-loop{
+  padding-bottom: 20px;
+}
+
+.exercise-table {
+  display: table !important;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  table-layout: fixed;
+  padding: 3rem;
+  width: 60vw;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+.exercise-table th {
+  border: thin solid black;
+  padding: 12px 15px;
+  background-color: #00adb5;
+  color: #ffffff;
+  text-align: center;
+}
+
+.exercise-table td {
+  border: thin solid black;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.exercise-table tr:nth-child(odd) {
+  background-color: #ddd;
+}
+.exercise-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.exercise-table tr:hover {
+  background-color: rgb(167, 167, 167);
+}
+
+@media (max-width: 1080px) {
+  .exercise-table {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .exercise-table {
+    font-size: 0.8rem;
+  }
+  .exercise-table th {
+    text-align: left;
+  }
 }

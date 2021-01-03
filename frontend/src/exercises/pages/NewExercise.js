@@ -80,7 +80,7 @@ function NewExercise() {
           Authorization: "Bearer " + auth.token,
         }
       );
-      history.push("/");
+      history.push(`exercise/${auth.userId}`);
     } catch (err) {
       console.log(err);
     }
@@ -93,7 +93,7 @@ function NewExercise() {
   return (
     <div>
       <ErrorModal error={error} onClear={clearError} />
-      <form className="place-form" onSubmit={placeSubmitHandler}>
+      <form className="exercise-form" onSubmit={placeSubmitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
         <Input
           id="title"
@@ -102,14 +102,6 @@ function NewExercise() {
           element="input"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid Title"
-          onInput={inputHandler}
-        />
-        <Input
-          id="description"
-          label="Description"
-          element="textarea"
-          validators={[]}
-          errorText="Please enter a valid Description (at least 5 characters)."
           onInput={inputHandler}
         />
         <Input

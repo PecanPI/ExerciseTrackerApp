@@ -5,15 +5,26 @@ import "./NavLinks.css";
 import { AuthContext } from "../../context/auth-context";
 function NavLinks(props) {
   const auth = useContext(AuthContext);
+  
   return (
     <div>
       <ul className="nav-links">
-        <li>
-          <NavLink to="/" exact>
-            {" "}
-            Home
-          </NavLink>
-        </li>
+        {auth.isLoggedIn && (
+          <li>
+            <NavLink to={`/exercises/${auth.userId}`} exact>
+              {" "}
+              My Exercises
+            </NavLink>
+          </li>
+        )}
+        {auth.isLoggedIn && (
+          <li>
+            <NavLink to="/exercises/create" exact>
+              {" "}
+              Create Exercise
+            </NavLink>
+          </li>
+        )}
         {/* {auth.isLoggedIn && (
           <li>
             <NavLink to={`/${auth.userId}/places`}> My Exercises</NavLink>
@@ -36,7 +47,7 @@ function NavLinks(props) {
         )}
         {auth.isLoggedIn && (
           <li>
-            <button onClick ={auth.logout}> Logout </button>
+            <button onClick={auth.logout}> Logout </button>
           </li>
         )}
       </ul>

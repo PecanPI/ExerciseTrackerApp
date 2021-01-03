@@ -3,14 +3,15 @@
     height: 4rem;
     display: flex;
     align-items: center;
-    /* position: fixed; */
+    position: relative;
     margin-bottom: 5rem;
     top: 0;
     left: 0;
     background: #00adb5;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
     padding: 2 2rem;
-    z-index: 5;
+    z-index: 0;
+    text-align: center;
   }
   
   main {
