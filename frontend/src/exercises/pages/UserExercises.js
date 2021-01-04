@@ -15,6 +15,7 @@ function UserExercises() {
   const [loadedExercises, setLoadedExercises] = useState();
   const [allExercises, setAllExercises] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [uniqueBodyLocations, setUniqueBodyLocations] = useState();
   const auth = useContext(AuthContext);
 
   function exerciseDeleteHandler(deleteExerciseId) {
@@ -23,11 +24,16 @@ function UserExercises() {
     );
   }
 
-  function filterHandler(filterSelection){
-    if (filterSelection.value === 'all'){
-          setLoadedExercises(allExercises);
+  function filterHandler(filterSelection) {
+    if (filterSelection.value === "all") {
+        setLoadedExercises(allExercises)
     } else {
-        setLoadedExercises(loadedExercises.filter(exercise => exercise.bodyLocation === filterSelection.value))
+        console.log(allExercises);
+      setLoadedExercises(
+        allExercises.filter(
+          (exercise) => exercise.bodyLocation === filterSelection.value
+        )
+      );
     }
   }
 
@@ -43,12 +49,16 @@ function UserExercises() {
           }
         );
         //sorts exercises, newest by date first
-        let exercises = responseData.exercises.sort( (a, b) => {
+        let exercises = responseData.exercises.sort((a, b) => {
           if (a.date >= b.date) return -1;
           if (a.date < b.date) return 1;
         });
         setLoadedExercises(exercises);
-        setAllExercises(exercises)
+        setAllExercises(exercises);
+        setUniqueBodyLocations([
+            ...new Set(exercises.map((exercise) => exercise.bodyLocation)),
+            "all",
+          ]);
       } catch (err) {
         console.log(err);
       }
@@ -69,6 +79,7 @@ function UserExercises() {
           items={loadedExercises}
           onDeleteExercise={exerciseDeleteHandler}
           filter={filterHandler}
+          dropdownOptions = {uniqueBodyLocations}
         />
       )}
     </div>

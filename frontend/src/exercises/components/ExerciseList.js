@@ -16,9 +16,6 @@ function ExerciseList(props) {
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [deleteExerciseId, setDeleteExerciseId] = useState();
-  const [dropdownOptions, setDropdownOptions] = useState(["All"]);
-  
-  const defaultOption = dropdownOptions[-1];
 
   function showDeleteWarningHandler(id) {
     setDeleteExerciseId(id);
@@ -28,14 +25,6 @@ function ExerciseList(props) {
     setShowConfirmModal(false);
   }
 
- 
-  useEffect(() => {
-    const uniqueBodyLocations = [
-      ...new Set(props.items.map((exercise) => exercise.bodyLocation)),
-      "all",
-    ];
-    setDropdownOptions(uniqueBodyLocations);
-  }, [props.items]);
 
   async function confirmDeleteHandler() {
     setShowConfirmModal(false);
@@ -96,9 +85,9 @@ function ExerciseList(props) {
       )}
       {isLoading && <LoadingSpinner asOverlay />}
       <Dropdown
-        options={dropdownOptions}
+        options={props.dropdownOptions}
         onChange={props.filter}
-        value={defaultOption}
+        // value={defaultOption}
         placeholder="Filter"
       />
       <table className="exercise-table">
