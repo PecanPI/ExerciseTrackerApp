@@ -17,8 +17,6 @@ async function signup(req, res, next) {
   }
 
   const { email, password } = req.body;
-
-  console.log(req.body);
   //Check for existing user in database, each email should be unique
   let existingUser;
   try {

@@ -43,7 +43,7 @@ export const validate = (value, validators) => {
       isValid = isValid && value.trim().length <= validator.val;
     }
     if (validator.type === VALIDTOR_TYPE_IS_NUMBER ) {
-      value = parseInt(value);
+      value = Number(value)
       isValid = isValid && (!isNaN(value));
     }
     if (validator.type === VALIDATOR_TYPE_MIN) {

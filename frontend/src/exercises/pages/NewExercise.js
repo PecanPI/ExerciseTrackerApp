@@ -59,9 +59,9 @@ function NewExercise() {
         JSON.stringify({
           title: formState.inputs.title.value,
           bodyLocation: formState.inputs.bodyLocation.value,
-          reps: formState.inputs.reps.value,
-          sets: formState.inputs.sets.value,
-          weight: formState.inputs.weight.value,
+          reps: Number(formState.inputs.reps.value),
+          sets: Number(formState.inputs.sets.value),
+          weight: Number(formState.inputs.weight.value),
           date: date,
           userId: auth.userId,
         }),

@@ -25,7 +25,6 @@ function ExerciseList(props) {
   async function confirmDeleteHandler() {
     setShowConfirmModal(false);
     try {
-      console.log(deleteExerciseId);
       await sendRequest(
         `${"http://localhost:5000/exercises/"}${
           auth.userId

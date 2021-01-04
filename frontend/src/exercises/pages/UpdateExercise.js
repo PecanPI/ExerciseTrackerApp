@@ -95,8 +95,6 @@ function UpdateExercise(props) {
           }
         );
         setLoadedExercise(responseData.exercise);
-        console.log('test');
-        console.log(responseData.exercise.title);
         setFormData(
           {
             title: {
@@ -108,15 +106,15 @@ function UpdateExercise(props) {
               isValid: true,
             },
             reps: {
-              value: responseData.exercise.reps,
+              value: Number(responseData.exercise.reps),
               isValid: true,
             },
             sets: {
-              value: responseData.exercise.sets,
+              value: Number(responseData.exercise.sets),
               isValid: true,
             },
             weight: {
-              value: responseData.exercise.weight,
+              value: Number(responseData.exercise.weight),
               isValid: true,
             },
           },

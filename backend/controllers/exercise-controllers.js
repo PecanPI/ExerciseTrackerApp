@@ -27,7 +27,6 @@ async function getExerciseById(req,res,next){
 //Searching for exercise for specfic user
 async function getExerciseByUserId(req, res, next) {
   const userId = req.params.uid;
-  console.log(userId);
   let userWithExercise;
   try {
     userWithExercise = await User.findById(userId).populate("exercises");
@@ -40,7 +39,6 @@ async function getExerciseByUserId(req, res, next) {
   if (!userWithExercise ) {
     return next(new HttpError("Could not find exercises for user", 404));
   }
-  console.log(userWithExercise);
   res.json({
     exercises: userWithExercise.exercises.map((exercise) =>
       exercise.toObject({ getters: true })
@@ -50,13 +48,13 @@ async function getExerciseByUserId(req, res, next) {
 
 //Creating Exercise, every exercise must be assigned to a user
 async function createExercise(req, res, next) {
-  // const errors = validationResult(req);
-
-  // if (errors.errors.length > 0) {
-  //   return next(
-  //     new HttpError("invalid inputs passed, please check your data", 422)
-  //   );
-  // }
+  const errors = validationResult(req);
+  if (!errors.isEmpty > 0) {
+    return next(
+      new HttpError("invalid inputs passed, please check your data" + errors.error, 422)
+    );
+  }
+  
   const {
     title,
     bodyLocation,
@@ -111,7 +109,7 @@ async function createExercise(req, res, next) {
 
 async function updateExercise(req, res, next) {
   const errors = validationResult(req);
-  console.log(req.body);
+  console.log(errors);
   if (errors.errors.length > 0) {
     return next(
       new HttpError("invalid inputs passed, please check your data", 422)
@@ -156,7 +154,6 @@ async function updateExercise(req, res, next) {
 
 async function deleteExercise(req, res, next) {
   const exerciseId = req.params.eid;
-  console.log(req.params);
   let exercise;
   try {
     exercise = await Exercise.findById(exerciseId).populate("userId");
