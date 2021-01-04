@@ -32,7 +32,6 @@ function UserExercises() {
           }
         );
         setLoadedExercises(responseData.exercises);
-        console.log(responseData);
       } catch (err) {
           console.log(err);
       }

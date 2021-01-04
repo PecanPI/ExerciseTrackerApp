@@ -8,6 +8,8 @@ router.use(checkAuth)
 
 router.get("/:uid", exerciseControllers.getExerciseByUserId)
 
+router.get("/:uid/:eid", exerciseControllers.getExerciseById)
+
 router.post("/", exerciseControllers.createExercise)
 
 router.patch("/:uid/:eid", exerciseControllers.updateExercise)

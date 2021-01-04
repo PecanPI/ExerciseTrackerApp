@@ -1,9 +1,7 @@
-import React, {useContext} from 'react'
-import { AuthContext } from "../shared/context/auth-context";
+import React from 'react'
+
 
 function LandingPage() {
-    const auth = useContext(AuthContext);
-    console.log("you made it here user: " + auth.userId);
     return (
         <div>
             <h1>THIS IS A TEST PAGE</h1>this is a test page

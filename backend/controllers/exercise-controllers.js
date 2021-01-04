@@ -5,6 +5,25 @@ const { validationResult } = require("express-validator");
 const User = require("../models/user-model");
 const Exercise = require("../models/exercise-model");
 
+async function getExerciseById(req,res,next){
+  const exerciseId = req.params.eid
+  let exercise
+  try{
+    exercise = await Exercise.findById(exerciseId)
+  } catch (err){
+    return next(
+      new HttpError('Something went wrong could not find exercise', 500)
+    )
+  }
+  if(!exercise){
+    return next (
+      new HttpError('Could not find exercise with provided id', 404)
+    )
+  }
+  res.json({exercise: exercise.toObject({getters: true})})
+}
+
+
 //Searching for exercise for specfic user
 async function getExerciseByUserId(req, res, next) {
   const userId = req.params.uid;
@@ -21,6 +40,7 @@ async function getExerciseByUserId(req, res, next) {
   if (!userWithExercise ) {
     return next(new HttpError("Could not find exercises for user", 404));
   }
+  console.log(userWithExercise);
   res.json({
     exercises: userWithExercise.exercises.map((exercise) =>
       exercise.toObject({ getters: true })
@@ -37,8 +57,6 @@ async function createExercise(req, res, next) {
   //     new HttpError("invalid inputs passed, please check your data", 422)
   //   );
   // }
-  console.log(req.body);
-
   const {
     title,
     bodyLocation,
@@ -93,35 +111,22 @@ async function createExercise(req, res, next) {
 
 async function updateExercise(req, res, next) {
   const errors = validationResult(req);
-
+  console.log(req.body);
   if (errors.errors.length > 0) {
     return next(
       new HttpError("invalid inputs passed, please check your data", 422)
     );
   }
-
   const {
     title,
-    description,
     bodyLocation,
     reps,
     sets,
     weight,
-    duration,
     date,
+    userId
   } = req.body;
-
-  const updatedExercise = new Exercise({
-    title,
-    description,
-    bodyLocation,
-    reps,
-    sets,
-    weight,
-    duration,
-    date,
-    userId: req.params.uid,
-  });
+  
   //find existing exercise
   const exerciseId = req.params.eid;
   let exercise;
@@ -130,17 +135,23 @@ async function updateExercise(req, res, next) {
   } catch (error) {
     return next(new HttpError("Something went wrong could not update", 500));
   }
-  if (exercise.userId.toString() !== req.params.uid) {
+  if (exercise.userId.toString() !== userId) {
     return next(new HttpError("You are not allowed to edit this", 401));
   }
-  exercise = updatedExercise;
+  
+  exercise.title = title;
+  exercise.bodyLocation = bodyLocation;
+  exercise.reps = reps;
+  exercise.sets = sets;
+  exercise.weight =weight;
+  exercise.date= date;
 
   try {
     exercise.save();
   } catch (err) {
     return next(new HttpError("Something went wrong could not update", 500));
   }
-
+  console.log(exercise);
   res.status(200).json({ exercise: exercise.toObject({ getters: true }) });
 }
 
@@ -186,4 +197,5 @@ module.exports = {
   updateExercise,
   createExercise,
   getExerciseByUserId,
+  getExerciseById
 };

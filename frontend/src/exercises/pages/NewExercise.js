@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import {
-  VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import Button from "../../shared/components/FormElements/Button";
@@ -122,14 +121,6 @@ function NewExercise() {
         <Input
           id="weight"
           label="Weight"
-          element="input"
-          validators={[]}
-          errorText=""
-          onInput={inputHandler}
-        />
-        <Input
-          id="duration"
-          label="Duration"
           element="input"
           validators={[]}
           errorText=""

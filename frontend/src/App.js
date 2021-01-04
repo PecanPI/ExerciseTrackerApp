@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
   Switch,
 } from "react-router-dom";
 
@@ -31,7 +30,7 @@ function App() {
         <Route path="/exercises/create" exact>
           <NewExercise />
         </Route>
-        <Route path="/exercises/:userId/update/" exact>
+        <Route path="/exercises/update/:eId" exact>
           <UpdateExercise />
         </Route>
         <Route path="/exercises/:userId">
@@ -39,7 +38,7 @@ function App() {
         </Route>
 
         {/* 404 page Route */}
-        <Route component={LandingPage} />
+        <Route component={UserExercises} />
       </Switch>
     );
   } else {

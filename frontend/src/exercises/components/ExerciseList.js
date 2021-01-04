@@ -1,4 +1,4 @@
-import React,{useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import ExerciseItem from "./ExerciseItem";
@@ -14,9 +14,8 @@ function ExerciseList(props) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [deleteExerciseId, setDeleteExerciseId] = useState();
 
-  console.log(props);
   function showDeleteWarningHandler(id) {
-    setDeleteExerciseId(id)
+    setDeleteExerciseId(id);
     setShowConfirmModal(true);
   }
   function cancelDeleteWarningHandler() {
@@ -26,8 +25,11 @@ function ExerciseList(props) {
   async function confirmDeleteHandler() {
     setShowConfirmModal(false);
     try {
+      console.log(deleteExerciseId);
       await sendRequest(
-        `${"http://localhost:5000/exercises/"}${auth.userId}/${deleteExerciseId}`,
+        `${"http://localhost:5000/exercises/"}${
+          auth.userId
+        }/${deleteExerciseId}`,
         "DELETE",
         null,
         {
@@ -39,7 +41,6 @@ function ExerciseList(props) {
     } catch (err) {
       console.log(err);
     }
-    //props.onDelete(props.id);
   }
   // if user hasnt created an exercise prompt to go to page;
 
@@ -48,38 +49,38 @@ function ExerciseList(props) {
       <div className="exercise-list center">
         <Card>
           <h2> No exercises found. Create one?</h2>
-          <Button to="/exercises/create"> New Exercise </Button>
+          <Button to="/exercises/create/"> New Exercise </Button>
         </Card>
       </div>
     );
   }
 
   return (
-    <div className='center'>
+    <div className="center">
       <ErrorModal error={error} onClear={clearError} />
       {showConfirmModal && (
-          <Modal
-            show={showConfirmModal}
-            onCancel={cancelDeleteWarningHandler}
-            header="Are you sure?"
-            footerClass="place-item__modal-actions"
-            footer={
-              <React.Fragment>
-                <Button inverse onClick={cancelDeleteWarningHandler}>
-                  {" "}
-                  CANCEL{" "}
-                </Button>
-                <Button danger onClick={confirmDeleteHandler}>
-                  {" "}
-                  DELETE{" "}
-                </Button>
-              </React.Fragment>
-            }
-          >
-            <p>Would you like to Delete this Exercise?</p>
-          </Modal>
+        <Modal
+          show={showConfirmModal}
+          onCancel={cancelDeleteWarningHandler}
+          header="Are you sure?"
+          footerClass="place-item__modal-actions"
+          footer={
+            <React.Fragment>
+              <Button inverse onClick={cancelDeleteWarningHandler}>
+                {" "}
+                CANCEL{" "}
+              </Button>
+              <Button danger onClick={confirmDeleteHandler}>
+                {" "}
+                DELETE{" "}
+              </Button>
+            </React.Fragment>
+          }
+        >
+          <p>Would you like to Delete this Exercise?</p>
+        </Modal>
       )}
-       {isLoading && <LoadingSpinner asOverlay />}
+      {isLoading && <LoadingSpinner asOverlay />}
       <table className="exercise-table">
         <thead>
           <tr className="exercise-row title center">
@@ -90,7 +91,6 @@ function ExerciseList(props) {
             <th className="exercise-column">Weight</th>
             <th className="exercise-column">Date</th>
             <th className="exercise-column">Actions</th>
-
           </tr>
         </thead>
         <tbody>
@@ -108,12 +108,11 @@ function ExerciseList(props) {
               showWarning={showDeleteWarningHandler}
               cancelWarning={cancelDeleteWarningHandler}
               confirmDeleteHandler={confirmDeleteHandler}
-
             />
           ))}
         </tbody>
       </table>
-      <Button className='center' to={`/exercises/create`}>Add Exercise</Button>
+      <Button to={`/exercises/create`}> New Exercise </Button>
     </div>
   );
 }
