@@ -21,7 +21,7 @@ function ExerciseItem(props) {
         <td className="exercise-column">{props.weight}</td>
         <td className="exercise-column">{date}</td>
         <td className="exercise-column links">
-          <Link to={`/exercises/update/${props.id}`}> Edit </Link>|
+          <Link to={`/exercises/update/${props.id}`}> Edit </Link><p></p>
           <Link to="#" onClick={() =>{
             const id = props.id
             props.showWarning(id)}}>

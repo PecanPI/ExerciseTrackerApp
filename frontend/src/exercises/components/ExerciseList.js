@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import ExerciseItem from "./ExerciseItem";
@@ -8,11 +8,17 @@ import Modal from "../../shared/components/UIElements/Modal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+
 function ExerciseList(props) {
   const auth = useContext(AuthContext);
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [deleteExerciseId, setDeleteExerciseId] = useState();
+  const [dropdownOptions, setDropdownOptions] = useState(["All"]);
+  
+  const defaultOption = dropdownOptions[-1];
 
   function showDeleteWarningHandler(id) {
     setDeleteExerciseId(id);
@@ -21,6 +27,15 @@ function ExerciseList(props) {
   function cancelDeleteWarningHandler() {
     setShowConfirmModal(false);
   }
+
+ 
+  useEffect(() => {
+    const uniqueBodyLocations = [
+      ...new Set(props.items.map((exercise) => exercise.bodyLocation)),
+      "all",
+    ];
+    setDropdownOptions(uniqueBodyLocations);
+  }, [props.items]);
 
   async function confirmDeleteHandler() {
     setShowConfirmModal(false);
@@ -80,6 +95,12 @@ function ExerciseList(props) {
         </Modal>
       )}
       {isLoading && <LoadingSpinner asOverlay />}
+      <Dropdown
+        options={dropdownOptions}
+        onChange={props.filter}
+        value={defaultOption}
+        placeholder="Filter"
+      />
       <table className="exercise-table">
         <thead>
           <tr className="exercise-row title center">

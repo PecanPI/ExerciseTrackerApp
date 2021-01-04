@@ -15,6 +15,11 @@
   
   
 }
+.Dropdown-root{
+  width: 20%;
+  height: 50%;
+  font-size: .7rem;
+}
 .react-datepicker__tab-loop{
   padding-bottom: 20px;
 }
@@ -71,6 +76,12 @@
     font-size: 0.8rem;
   }
   .exercise-table th {
-    text-align: left;
+    text-align: center;
+    padding: 1px 5px;
+  }
+  .exercise-table td {
+ 
+    padding: 1px 5px;
+
   }
 }

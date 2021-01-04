@@ -4,21 +4,32 @@ import ExerciseList from "../components/ExerciseList";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import { AuthContext } from "../../shared/context/auth-context"
+import { AuthContext } from "../../shared/context/auth-context";
 
-import "./ExerciseForm.css"
+import "./ExerciseForm.css";
 
 /*
-* Gets all user exercises and displays
-*/
+ * Gets all user exercises and displays
+ */
 function UserExercises() {
   const [loadedExercises, setLoadedExercises] = useState();
+  const [allExercises, setAllExercises] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
 
   function exerciseDeleteHandler(deleteExerciseId) {
-    setLoadedExercises(prevExercise=> prevExercise.filter(exercises => exercises.id !== deleteExerciseId));
-}
+    setLoadedExercises((prevExercise) =>
+      prevExercise.filter((exercises) => exercises.id !== deleteExerciseId)
+    );
+  }
+
+  function filterHandler(filterSelection){
+    if (filterSelection.value === 'all'){
+          setLoadedExercises(allExercises);
+    } else {
+        setLoadedExercises(loadedExercises.filter(exercise => exercise.bodyLocation === filterSelection.value))
+    }
+  }
 
   useEffect(() => {
     async function fetchPlaces() {
@@ -28,12 +39,18 @@ function UserExercises() {
           "GET",
           null,
           {
-            Authorization : 'Bearer ' + auth.token
+            Authorization: "Bearer " + auth.token,
           }
         );
-        setLoadedExercises(responseData.exercises);
+        //sorts exercises, newest by date first
+        let exercises = responseData.exercises.sort( (a, b) => {
+          if (a.date >= b.date) return -1;
+          if (a.date < b.date) return 1;
+        });
+        setLoadedExercises(exercises);
+        setAllExercises(exercises)
       } catch (err) {
-          console.log(err);
+        console.log(err);
       }
     }
     fetchPlaces();
@@ -48,7 +65,11 @@ function UserExercises() {
         </div>
       )}
       {!isLoading && loadedExercises && (
-        <ExerciseList items={loadedExercises} onDeleteExercise={exerciseDeleteHandler} />
+        <ExerciseList
+          items={loadedExercises}
+          onDeleteExercise={exerciseDeleteHandler}
+          filter={filterHandler}
+        />
       )}
     </div>
   );

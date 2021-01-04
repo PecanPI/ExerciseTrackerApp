@@ -21,7 +21,7 @@
   .main-navigation__title {
     color: #fff;
     text-align: center;
-    margin-left: 100px;
+    margin-left: 0px;
     
    
   }
@@ -33,7 +33,7 @@
     position: absolute;
     left: 50%;
     top: 20%;
-    margin-left: -50px !important;
+    margin-left: -70px !important;
     display: block;
     
   }
