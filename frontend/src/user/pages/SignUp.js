@@ -5,6 +5,7 @@ import Card from "../../shared/components/UIElements/Card";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
+  VALIDATOR_PASSWORD,
 } from "../../shared/util/validators";
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -35,7 +36,7 @@ function SignUp() {
     },
     false
   );
-
+console.log(formState);
   async function submitHandler(event) {
     event.preventDefault();
     try {
@@ -78,17 +79,18 @@ function SignUp() {
             element="input"
             type="password"
             label="Password"
-            validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter a valid password, atleast 6 characters"
+            validators={[VALIDATOR_MINLENGTH(8)]}
+            errorText="Please enter a valid password, atleast 8 characters"
             onInput={inputHandler}
           />
+          
           <Input
             id="confrimationPassword"
             element="input"
             type="password"
             label="Confirm Password"
-            validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter a valid password, atleast 6 characters"
+            validators={[VALIDATOR_PASSWORD(formState.inputs.password.value)]}
+            errorText="Passwords do not match"
             onInput={inputHandler}
           />
           <Button

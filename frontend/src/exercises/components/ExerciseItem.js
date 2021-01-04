@@ -22,7 +22,9 @@ function ExerciseItem(props) {
         <td className="exercise-column">{date}</td>
         <td className="exercise-column links">
           <Link to={`/exercises/update/${props.id}`}> Edit </Link>|
-          <Link to="#" onClick={props.showWarning}>
+          <Link to="#" onClick={() =>{
+            const id = props.id
+            props.showWarning(id)}}>
             Delete
           </Link>
         </td>

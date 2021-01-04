@@ -5,7 +5,7 @@ import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UIElements/Card"
 import Button from "../../shared/components/FormElements/Button";
 import DatePicker from "react-datepicker";
-import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
+import { VALIDATOR_NUMBER, VALIDATOR_REQUIRE } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -169,8 +169,8 @@ function UpdateExercise(props) {
           label="Body Location"
           type="text"
           element="input"
-          validators={[]}
-          errorText="Please enter a valid Description (at least 5 characters)."
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please enter a Body Location"
           onInput={inputHandler}
           initialValue={loadedExercise.bodyLocation}
           initialValid={true}
@@ -179,8 +179,8 @@ function UpdateExercise(props) {
           id="reps"
           label="Reps"
           element="input"
-          validators={[]}
-          errorText=""
+          validators={[VALIDATOR_NUMBER()]}
+          errorText="Value needs to be a number"
           onInput={inputHandler}
           initialValue={loadedExercise.reps}
           initialValid={true}
@@ -189,18 +189,18 @@ function UpdateExercise(props) {
           id="sets"
           label="Sets"
           element="input"
-          validators={[]}
-          errorText=""
+          validators={[VALIDATOR_NUMBER()]}
+          errorText="Value needs to be a number"
           onInput={inputHandler}
           initialValue={loadedExercise.sets}
           initialValid={true}
         />
         <Input
           id="weight"
-          label="Weight"
+          label="Weight (lbs)"
           element="input"
-          validators={[]}
-          errorText=""
+          validators={[VALIDATOR_NUMBER()]}
+          errorText="Value needs to be a number"
           onInput={inputHandler}
           initialValue={loadedExercise.weight}
           initialValid={true}

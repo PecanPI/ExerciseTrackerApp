@@ -151,7 +151,6 @@ async function updateExercise(req, res, next) {
   } catch (err) {
     return next(new HttpError("Something went wrong could not update", 500));
   }
-  console.log(exercise);
   res.status(200).json({ exercise: exercise.toObject({ getters: true }) });
 }
 

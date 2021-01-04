@@ -88,7 +88,7 @@ function ExerciseList(props) {
             <th className="exercise-column">Body Location</th>
             <th className="exercise-column">Reps</th>
             <th className="exercise-column">Sets</th>
-            <th className="exercise-column">Weight</th>
+            <th className="exercise-column">Weight (lbs)</th>
             <th className="exercise-column">Date</th>
             <th className="exercise-column">Actions</th>
           </tr>

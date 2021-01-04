@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import {
+  VALIDATOR_NUMBER,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import Button from "../../shared/components/FormElements/Button";
@@ -98,7 +99,7 @@ function NewExercise() {
           label="Body Location"
           type="text"
           element="input"
-          validators={[]}
+          validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid Description (at least 5 characters)."
           onInput={inputHandler}
         />
@@ -106,24 +107,24 @@ function NewExercise() {
           id="reps"
           label="Reps"
           element="input"
-          validators={[]}
-          errorText=""
+          validators={[VALIDATOR_NUMBER()]}
+          errorText="Value needs to be a number"
           onInput={inputHandler}
         />
         <Input
           id="sets"
           label="Sets"
           element="input"
-          validators={[]}
-          errorText=""
+          validators={[VALIDATOR_NUMBER()]}
+          errorText="Value needs to be a number"
           onInput={inputHandler}
         />
         <Input
           id="weight"
-          label="Weight"
+          label="Weight (lbs)"
           element="input"
-          validators={[]}
-          errorText=""
+          validators={[VALIDATOR_NUMBER()]}
+          errorText="Value needs to be a number"
           onInput={inputHandler}
         />
         <div className="form-group">
