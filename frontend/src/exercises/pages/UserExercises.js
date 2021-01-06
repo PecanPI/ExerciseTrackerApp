@@ -28,7 +28,6 @@ function UserExercises() {
     if (filterSelection.value === "all") {
         setLoadedExercises(allExercises)
     } else {
-        console.log(allExercises);
       setLoadedExercises(
         allExercises.filter(
           (exercise) => exercise.bodyLocation === filterSelection.value
@@ -41,7 +40,7 @@ function UserExercises() {
     async function fetchPlaces() {
       try {
         const responseData = await sendRequest(
-          `${"http://localhost:5000"}/exercises/${auth.userId}`,
+          `${process.env.REACT_APP_BACKENDURL}/exercises/${auth.userId}`,
           "GET",
           null,
           {
@@ -52,6 +51,7 @@ function UserExercises() {
         let exercises = responseData.exercises.sort((a, b) => {
           if (a.date >= b.date) return -1;
           if (a.date < b.date) return 1;
+          return -1;
         });
         setLoadedExercises(exercises);
         setAllExercises(exercises);

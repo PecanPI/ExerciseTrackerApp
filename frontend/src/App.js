@@ -10,14 +10,17 @@ import useAuth from "./shared/hooks/auth-hook";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
-import LandingPage from "./LandingPage/LandingPage";
-import SignUp from "./user/pages/SignUp";
-import Login from "./user/pages/Login";
-import NewExercise from "./exercises/pages/NewExercise";
-import UserExercises from "./exercises/pages/UserExercises";
-import UpdateExercise from "./exercises/pages/UpdateExercise"
 
 import "./App.css";
+
+
+const LandingPage = React.lazy(()=> import ("./LandingPage/LandingPage"));
+const SignUp = React.lazy(()=> import ("./user/pages/SignUp"))
+const Login = React.lazy(()=> import ("./user/pages/Login"))
+const NewExercise = React.lazy(()=> import ("./exercises/pages/NewExercise"))
+const UserExercises= React.lazy(()=> import ("./exercises/pages/UserExercises"))
+const UpdateExercise = React.lazy(()=> import ("./exercises/pages/UpdateExercise"))
+
 
 
 function App() {

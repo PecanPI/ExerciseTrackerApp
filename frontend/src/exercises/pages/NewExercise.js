@@ -54,7 +54,7 @@ function NewExercise() {
     event.preventDefault();
     try {
       await sendRequest(
-        `${"http://localhost:5000/exercises"}`,
+        `${process.env.REACT_APP_BACKENDURL}${"/exercises"}`,
         "POST",
         JSON.stringify({
           title: formState.inputs.title.value,

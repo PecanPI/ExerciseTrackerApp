@@ -36,12 +36,11 @@ function SignUp() {
     },
     false
   );
-console.log(formState);
   async function submitHandler(event) {
     event.preventDefault();
     try {
       const responseData = await sendRequest(
-        `${"http://localhost:5000"}/users/signup`,
+        `${process.env.REACT_APP_BACKENDURL}/users/signup`,
         "POST",
         JSON.stringify({
           email: formState.inputs.email.value,

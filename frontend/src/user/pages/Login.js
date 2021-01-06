@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
@@ -21,7 +21,7 @@ function Auth() {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const history = useHistory();
 
-  const [formState, inputHandler, setFormData] = useForm(
+  const [formState, inputHandler] = useForm(
     {
       email: {
         value: "",
@@ -39,8 +39,9 @@ function Auth() {
   async function submitHandler(event) {
     event.preventDefault();
     try {
+      console.log(process.env.REACT_APP_BACKENDURL);
       const responseData = await sendRequest(
-        `${"http://localhost:5000/"}users/login`,
+        `${process.env.REACT_APP_BACKENDURL}/users/login`,
         "POST",
         JSON.stringify({
           email: formState.inputs.email.value,
@@ -50,7 +51,6 @@ function Auth() {
           "Content-Type": "application/json",
         }
       );
-      console.log(responseData);
       auth.login(responseData.userId, responseData.token); //save login information
       history.push(`/exercises/${responseData.userId}`); //redirect to user page
     } catch (err) {

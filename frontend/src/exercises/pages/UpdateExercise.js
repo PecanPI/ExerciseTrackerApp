@@ -56,11 +56,9 @@ function UpdateExercise(props) {
 
   async function exerciseUpdateSubmitHandler(event) {
     event.preventDefault();
-        console.log('test');
-        console.log(formState.inputs);
     try {
       await sendRequest(
-        `${"http://localhost:5000/exercises"}/exercises/${exerciseId}`,
+        `${process.env.REACT_APP_BACKENDURL}${"/exercises"}/exercises/${exerciseId}`,
         "PATCH",
         JSON.stringify({
           title: formState.inputs.title.value,
@@ -87,7 +85,7 @@ function UpdateExercise(props) {
     async function fetchExercise() {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/exercises/${auth.userId}/${exerciseId}`,
+          `${process.env.REACT_APP_BACKENDURL}/exercises/${auth.userId}/${exerciseId}`,
           "GET",
           null,
           {

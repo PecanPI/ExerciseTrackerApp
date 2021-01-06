@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import ExerciseItem from "./ExerciseItem";
@@ -30,7 +30,7 @@ function ExerciseList(props) {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `${"http://localhost:5000/exercises/"}${
+        `${process.env.REACT_APP_BACKENDURL}${"/exercises/"}${
           auth.userId
         }/${deleteExerciseId}`,
         "DELETE",
