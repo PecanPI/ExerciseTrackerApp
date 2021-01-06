@@ -177,7 +177,7 @@ async function deleteExercise(req, res, next) {
     sess.startTransaction();
     await exercise.remove({ session: sess });
     exercise.userId.exercises.pull(exercise);
-    console.log("test");
+
     await exercise.userId.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
