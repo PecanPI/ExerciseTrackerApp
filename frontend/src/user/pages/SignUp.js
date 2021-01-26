@@ -50,8 +50,9 @@ function SignUp() {
           "Content-Type": "application/json",
         }
       );
-      auth.login(responseData.userId, responseData.token);
-      history.push(`/exercises/${responseData.userId}`);
+      
+      auth.login(responseData.user, responseData.token);
+      history.push(`/exercises/${responseData.user}`);
     } catch (err) {
       console.log(err);
     }
@@ -59,7 +60,7 @@ function SignUp() {
   return (
     <div>
       <ErrorModal error={error} onClear={clearError} />
-      <Card className="authentication">
+      <Card className="authentication center">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Sign Up</h2>
         <hr />

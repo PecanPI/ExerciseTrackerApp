@@ -28,11 +28,12 @@ async function getExerciseById(req,res,next){
 async function getExerciseByUserId(req, res, next) {
   const userId = req.params.uid;
   let userWithExercise;
+  console.log(req.params);
   try {
-    userWithExercise = await User.findById(userId).populate("exercises");
+    userWithExercise = await User.findById(mongoose.Types.ObjectId(userId)).populate("exercises");
   } catch (err) {
     return next(
-      new HttpError("Could not connect to db, please try again later.", 500)
+      new HttpError("Could not connect to db, please try again later." + err, 500)
     );
   }
 //|| userWithExercise.exercises.length === 0

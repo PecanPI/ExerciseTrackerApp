@@ -61,7 +61,7 @@ function Auth() {
   return (
     <div>
       <ErrorModal error={error} onClear={clearError} />
-      <Card className="authentication">
+      <Card className="authentication center">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
         <hr />
