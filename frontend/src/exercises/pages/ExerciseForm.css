@@ -72,17 +72,17 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 550px) {
   .exercise-table {
     font-size: 0.7rem;
   }
   .exercise-table th {
     text-align: center;
-    padding: 1px 1px;
+    padding: 12px 1px;
   }
   .exercise-table td {
  
-    padding: 1px 1px;
+    padding: 12px 2px;
 
   }
 }
