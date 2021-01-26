@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 function ExerciseItem(props) {
 
   let date = new Date(props.date);
-  let month = date.getMonth() + 1;
-  date = date.getDate() + "/" + month + "/" + date.getFullYear();
+  date = date.getDate() + "/" + ('0' + (date.getMonth()+1)).slice(-2) 
 
 
   return (
@@ -21,7 +20,7 @@ function ExerciseItem(props) {
         <td className="exercise-column">{props.weight}</td>
         <td className="exercise-column">{date}</td>
         <td className="exercise-column links">
-          <Link to={`/exercises/update/${props.id}`}> Edit </Link><p></p>
+          <Link to={`/exercises/update/${props.id}`}> Edit </Link>
           <Link to="#" onClick={() =>{
             const id = props.id
             props.showWarning(id)}}>

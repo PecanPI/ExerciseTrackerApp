@@ -49,6 +49,7 @@
   border: thin solid black;
   padding: 12px 15px;
   text-align: center;
+  word-wrap: break-word;
 }
 .exercise-table td div{
   text-decoration: underline;
@@ -73,15 +74,15 @@
 
 @media (max-width: 600px) {
   .exercise-table {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
   .exercise-table th {
     text-align: center;
-    padding: 1px 5px;
+    padding: 1px 1px;
   }
   .exercise-table td {
  
-    padding: 1px 5px;
+    padding: 1px 1px;
 
   }
 }
